@@ -3,43 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lightspeed Search | Pro</title>
+    <title>Lightspeed Search</title>
     <style>
         :root {
-            --bg-color: #0b0e14;
-            --panel-bg: #11141b;
-            --sidebar-bg: #161a23;
-            --text-color: #e2e8f0;
-            --text-muted: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.06);
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --bg-color: #0f1218;
+            --panel-bg: #161a23;
+            --sidebar-bg: #1c212c;
+            --text-color: #d1d5db;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --btn-gloss: linear-gradient(180deg, rgba(96, 165, 250, 0.12) 0%, rgba(96, 165, 250, 0) 60%);
+            --pdf-bg: #e2e8f0;
+            --label-color: #94a3b8;
             --accent-blue: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.3);
-            --pdf-bg: #0f172a;
-            --card-bg: rgba(255, 255, 255, 0.02);
-            --logo-primary: #ffffff;
+            --subject-group-bg: rgba(59, 130, 246, 0.05);
+            --subject-border: rgba(59, 130, 246, 0.15);
         }
 
         .light-mode {
-            --bg-color: #f8fafc;
+            --bg-color: #f1f5f9;
             --panel-bg: #ffffff;
-            --sidebar-bg: #f1f5f9;
+            --sidebar-bg: #f8fafc;
             --text-color: #1e293b;
-            --text-muted: #64748b;
-            --border-color: rgba(0, 0, 0, 0.06);
-            --glass-bg: rgba(0, 0, 0, 0.02);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --glass-bg: rgba(59, 130, 246, 0.05);
             --glass-border: rgba(0, 0, 0, 0.1);
-            --accent-blue: #2563eb;
-            --accent-glow: rgba(37, 99, 235, 0.2);
+            --btn-gloss: linear-gradient(180deg, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0) 100%);
             --pdf-bg: #cbd5e1;
-            --card-bg: #ffffff;
-            --logo-primary: #0b0e14; /* Dark color for light mode logo */
-        }
-
-        /* HIDE RAW FILE INPUT */
-        #fileInput {
-            display: none !important;
+            --label-color: #64748b;
+            --subject-group-bg: rgba(59, 130, 246, 0.03);
+            --subject-border: rgba(59, 130, 246, 0.2);
         }
 
         * {
@@ -49,263 +43,41 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             background: var(--bg-color);
+            min-height: 100vh;
             color: var(--text-color);
-            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 10px;
             transition: background 0.3s ease;
-            overflow: hidden;
+        }
+
+        #fileInput {
+            display: none !important;
         }
 
         .container {
             width: 100%;
-            max-width: 1800px;
-            height: 96vh;
+            max-width: 1600px;
             background: var(--panel-bg);
-            border-radius: 16px;
+            border-radius: 12px;
             display: flex;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            height: 95vh;
             overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
         .left-panel {
             width: 380px;
-            min-width: 380px;
+            min-width: 320px;
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             background: var(--sidebar-bg);
-        }
-
-        .header {
-            padding: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .logo {
-            font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: -0.5px;
-            /* Transition for the gradient rotation and color swap */
-            background: linear-gradient(135deg, var(--logo-primary) 0%, var(--accent-blue) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .light-mode .logo {
-            /* Turned 180 degrees (135 + 180 = 315) */
-            background: linear-gradient(135deg, var(--logo-primary) 0%, var(--accent-blue) 100%);
-            -webkit-background-clip: text;
-        }
-
-        /* Theme Toggle Styling */
-        .theme-toggle {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            border-radius: 50%;
-        }
-
-        .theme-toggle svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
-        .sun-icon { display: block; }
-        .moon-icon { display: none; }
-
-        .light-mode .sun-icon { display: none; }
-        .light-mode .moon-icon { display: block; }
-
-        .section {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            background: var(--glass-bg);
-            color: var(--text-color);
-            font-size: 14px;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: var(--accent-blue);
-            background: var(--panel-bg);
-            box-shadow: 0 0 0 3px var(--accent-glow);
-        }
-
-        .btn {
-            padding: 10px 16px;
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-color);
-            background: var(--glass-bg);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn:hover {
-            background: var(--glass-border);
-            border-color: var(--text-muted);
-            transform: translateY(-1px);
-        }
-
-        .btn-primary {
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: #2563eb;
-            box-shadow: 0 4px 12px var(--accent-glow);
-        }
-
-        .active-toggle {
-            background: var(--accent-blue) !important;
-            color: white !important;
-            border-color: var(--accent-blue) !important;
-        }
-
-        .filter-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .filter-label::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: var(--border-color);
-        }
-
-        .filter-group-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 16px;
-        }
-
-        .filter-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .filter-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            cursor: pointer;
-            padding: 6px 8px;
-            border-radius: 6px;
-            transition: background 0.2s;
-            user-select: none;
-        }
-
-        .filter-item:hover {
-            background: var(--glass-bg);
-        }
-
-        .filter-item input {
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            border: 2px solid var(--glass-border);
-            border-radius: 4px;
-            background: var(--glass-bg);
-            cursor: pointer;
-            position: relative;
-            transition: all 0.2s;
-        }
-
-        .filter-item input:checked {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-        }
-
-        .filter-item input:checked::after {
-            content: "✓";
-            position: absolute;
-            color: white;
-            font-size: 10px;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .subject-group-label {
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--accent-blue);
-            margin-bottom: 8px;
-            opacity: 0.8;
-        }
-
-        #dynamicFilterContainer {
-            overflow-y: auto;
-            max-height: 300px;
-            padding-right: 4px;
-        }
-
-        .results-section {
-            flex: 1;
-            padding: 20px 24px;
-            overflow-y: auto;
-        }
-
-        .result-item {
-            padding: 14px;
-            background: var(--card-bg);
-            border-radius: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s;
-        }
-
-        .result-item:hover {
-            border-color: var(--accent-blue);
-            background: var(--glass-bg);
-            transform: translateX(4px);
-        }
-
-        .result-text {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-color);
-            line-height: 1.4;
+            overflow: hidden;
         }
 
         .right-panel {
@@ -315,83 +87,334 @@
             background: var(--pdf-bg);
         }
 
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .section {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .btn {
+            position: relative;
+            padding: 10px 16px;
+            border: 1px solid var(--glass-border);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-color);
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--btn-gloss);
+            pointer-events: none;
+        }
+
+        .btn:hover {
+            background: var(--glass-border);
+            border-radius: 14px;
+            box-shadow: 0 0 15px rgba(96, 165, 250, 0.1);
+        }
+
+        .btn.active-toggle {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: var(--accent-blue);
+            color: white;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--glass-bg);
+            color: var(--text-color);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .syllabus-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            color: var(--accent-blue);
+        }
+
+        .filter-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--label-color);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Standard Filter Grid (Doc Type - Horizontal) */
+        .filter-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .filter-item input {
+            cursor: pointer;
+            accent-color: var(--accent-blue);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* IAL Maths Subject Group Container */
+        .subject-group {
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--subject-group-bg);
+            border: 1px solid var(--subject-border);
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .subject-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .subject-group-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--subject-border);
+        }
+
+        .subject-units {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .subject-units .filter-item {
+            padding: 6px 8px;
+            border-radius: 4px;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+            margin: 0;
+        }
+
+        .subject-units .filter-item:hover {
+            background: var(--glass-border);
+            border-color: var(--accent-blue);
+            transform: translateX(2px);
+        }
+
+        .subject-units .filter-item input {
+            margin-right: 4px;
+        }
+
+        /* Scrollable Filter Container */
+        #dynamicFilterContainer {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        #dynamicFilterContainer::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #dynamicFilterContainer::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+
+        #dynamicFilterContainer::-webkit-scrollbar-thumb:hover {
+            background: var(--label-color);
+        }
+
+        .results-section {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .results-section::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .results-section::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+
+        .result-item {
+            padding: 12px;
+            background: var(--glass-bg);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .result-item:hover {
+            background: var(--glass-border);
+            transform: translateX(4px);
+            border-color: var(--accent-blue);
+        }
+
+        .result-text {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
         .pdf-header {
-            padding: 16px 24px;
+            padding: 12px 20px;
             background: var(--panel-bg);
             border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .pdf-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        #pdfTitle {
+        #downloadLink {
+            font-size: 11px;
+            color: var(--accent-blue);
+            text-decoration: none;
+            padding: 4px 10px;
+            background: rgba(59, 130, 246, 0.08);
+            border-radius: 4px;
+            display: none;
+            width: fit-content;
             font-weight: 600;
-            font-size: 14px;
-            color: var(--text-muted);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.2s;
         }
 
-        #downloadLink {
-            font-size: 12px;
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            background: var(--accent-blue);
-            border-radius: 6px;
-            font-weight: 600;
-            display: none;
+        #downloadLink:hover {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--accent-blue);
         }
 
         iframe {
-            flex: 1;
+            width: 100%;
+            height: 100%;
             border: none;
+            background: var(--pdf-bg);
         }
 
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                height: 100vh;
+                border-radius: 0;
+            }
+            .left-panel {
+                width: 100%;
+                height: 45%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .right-panel {
+                height: 55%;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="left-panel">
             <div class="header">
-                <div class="logo">LIGHTSPEED</div>
-                <button class="btn theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
-                </button>
+                <div style="font-weight: 700; font-size: 0.9rem;">Lightspeed</div>
+                <button class="btn" style="padding: 4px 10px; font-size: 10px;" onclick="toggleTheme()">Mode</button>
             </div>
 
             <div class="section">
                 <input type="file" id="fileInput" webkitdirectory directory multiple accept=".json,.pdf">
-                <button class="btn btn-primary" style="width: 100%;" onclick="document.getElementById('fileInput').click()">
-                    Upload Directory
-                </button>
+                <button class="btn" style="width: 100%;" onclick="document.getElementById('fileInput').click()">Upload Directory</button>
             </div>
 
             <div class="section">
-                <input type="text" id="searchInput" class="search-input" placeholder='Search "keyword1", "keyword2"'>
-                <div style="display: flex; gap: 8px; margin-top: 12px;">
-                    <button class="btn btn-primary" style="flex: 2;" onclick="performSearch()">Search</button>
-                    <button id="noFilterToggle" class="btn" style="flex: 1;" onclick="toggleNoFilter()">No Filter</button>
+                <input type="text" id="searchInput" class="search-input" placeholder='e.g. "keyword1", "keyword2"'>
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                    <button class="btn" style="flex: 2;" onclick="performSearch()">Search</button>
+                    <button id="noFilterToggle" class="btn" style="flex: 1.5;" onclick="toggleNoFilter()">No Filter</button>
                 </div>
             </div>
 
-            <div class="section" style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
-                <div id="syllabusIndicator" style="font-size: 10px; font-weight: 800; color: var(--accent-blue); margin-bottom: 15px;">SYLLABUS: NONE</div>
+            <div class="section" style="display: flex; flex-direction: column; padding-bottom: 0; border-bottom: none; flex: 1; overflow: hidden;">
+                <div id="syllabusIndicator" class="syllabus-badge">Syllabus: None</div>
 
-                <div class="filter-label">Document Types</div>
-                <div class="filter-group-box">
-                    <div class="filter-grid">
-                        <label class="filter-item"><input type="checkbox" id="filterQP" checked onchange="applyFilter()"> QP</label>
-                        <label class="filter-item"><input type="checkbox" id="filterMS" checked onchange="applyFilter()"> MS</label>
-                        <label class="filter-item"><input type="checkbox" id="filterER" checked onchange="applyFilter()"> ER</label>
-                    </div>
+                <div class="filter-label">Doc Type</div>
+                <div class="filter-grid" style="margin-bottom: 12px;">
+                    <label class="filter-item"><input type="checkbox" id="filterQP" checked onchange="applyFilter()">QP</label>
+                    <label class="filter-item"><input type="checkbox" id="filterMS" checked onchange="applyFilter()">MS</label>
+                    <label class="filter-item"><input type="checkbox" id="filterER" checked onchange="applyFilter()">ER</label>
                 </div>
 
-                <div class="filter-label">Unit Filters</div>
-                <div id="dynamicFilterContainer">
-                    <div style="text-align: center; opacity: 0.3; font-size: 11px; padding: 20px;">Upload data to see units</div>
-                </div>
+                <div class="filter-label">Filters</div>
+                <div id="dynamicFilterContainer"></div>
             </div>
 
             <div class="results-section" id="resultsList"></div>
@@ -399,9 +422,9 @@
 
         <div class="right-panel">
             <div class="pdf-header">
-                <div>
-                    <div id="pdfTitle">No Selection</div>
-                    <div id="pageInfo" style="font-size: 11px; color: var(--accent-blue); font-weight: 700; margin-top: 2px;"></div>
+                <div class="pdf-meta">
+                    <div id="pdfTitle" style="font-size: 0.8rem; opacity: 0.7;">No file selected</div>
+                    <div id="pageInfo" style="font-weight: 700; font-size: 0.8rem; color: var(--accent-blue);"></div>
                 </div>
                 <a id="downloadLink" target="_blank">Download Resource</a>
             </div>
@@ -418,15 +441,38 @@
         noFilterActive: false
     };
 
+    // IAL Maths unit configuration
     const ialMathsConfig = {
-        'Pure Math': { label: 'Pure Mathematics', units: ['WMA11', 'WMA12', 'WMA13', 'WMA14'], count: 4 },
-        'Mechanics': { label: 'Mechanics', units: ['WME01', 'WME02', 'WME03'], count: 3 },
-        'Stats': { label: 'Statistics', units: ['WST01', 'WST02', 'WST03'], count: 3 },
-        'Further': { label: 'Further Pure', units: ['WFM01', 'WFM02', 'WFM03'], count: 3 },
-        'Decision': { label: 'Decision', units: ['WDM11'], count: 1 }
+        'Pure Mathematics': {
+            label: 'Pure Mathematics',
+            units: ['WMA11', 'WMA12', 'WMA13', 'WMA14'],
+            count: 4
+        },
+        'Mechanics': {
+            label: 'Mechanics',
+            units: ['WME01', 'WME02', 'WME03'],
+            count: 3
+        },
+        'Statistics': {
+            label: 'Statistics',
+            units: ['WST01', 'WST02', 'WST03'],
+            count: 3
+        },
+        'Further Pure': {
+            label: 'Further Pure',
+            units: ['WFM01', 'WFM02', 'WFM03'],
+            count: 3
+        },
+        'Decision': {
+            label: 'Decision',
+            units: ['WDM11'],
+            count: 1
+        }
     };
 
-    function toggleTheme() { document.body.classList.toggle('light-mode'); }
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+    }
 
     function toggleNoFilter() {
         state.noFilterActive = !state.noFilterActive;
@@ -434,34 +480,8 @@
         applyFilter();
     }
 
-    function resetApp() {
-        // Revoke old object URLs to free up memory
-        Object.values(state.pdfUrls).forEach(url => URL.revokeObjectURL(url));
-
-        // Reset state
-        state.subIndex = {};
-        state.pdfUrls = {};
-        state.allRawResults = [];
-        state.mode = 'NONE';
-
-        // Clear UI elements
-        document.getElementById('resultsList').innerHTML = '';
-        document.getElementById('dynamicFilterContainer').innerHTML = '';
-        document.getElementById('pdfViewer').src = '';
-        document.getElementById('pdfTitle').textContent = 'No file selected';
-        document.getElementById('pageInfo').textContent = '';
-        document.getElementById('downloadLink').style.display = 'none';
-        document.getElementById('syllabusIndicator').textContent = 'Syllabus: None';
-        document.getElementById('searchInput').value = '';
-    }
-
     document.getElementById('fileInput').addEventListener('change', async (e) => {
         const files = Array.from(e.target.files);
-        if (files.length === 0) return;
-
-        // BUG FIX: Clear previous content before processing new upload
-        resetApp();
-
         let hasUnit = false;
         let isIALMaths = false;
 
@@ -472,10 +492,16 @@
                 const text = await file.text();
                 try {
                     state.subIndex = JSON.parse(text);
+                    // Detect mode from record names
                     for (const recordName of Object.keys(state.subIndex)) {
-                        if (recordName.toLowerCase().includes('unit')) hasUnit = true;
+                        if (recordName.toLowerCase().includes('unit')) {
+                            hasUnit = true;
+                        }
+                        // Check if this is IAL Maths by looking for WMA, WME, WST, WFM, WDM IDs
                         const upperName = recordName.toUpperCase();
-                        if (/^(WMA|WME|WST|WFM|WDM)/.test(upperName)) isIALMaths = true;
+                        if (/^(WMA|WME|WST|WFM|WDM)/.test(upperName)) {
+                            isIALMaths = true;
+                        }
                     }
                 } catch (err) {
                     console.error('Error parsing subIndex.json:', err);
@@ -494,55 +520,84 @@
     });
 
     function updateUIForMode() {
-        const grid = document.getElementById('dynamicFilterContainer');
-        document.getElementById('syllabusIndicator').textContent = `SYLLABUS: ${state.mode}`;
+        const grid = document.getElementById('dynamicFilterContainer');  // Changed from 'dynamicFilterGrid'
+        document.getElementById('syllabusIndicator').textContent = `Syllabus: ${state.mode}`;
         grid.innerHTML = '';
 
         if (state.mode === 'IAL-MATHS') {
+            // Create filter groups for IAL Maths
             for (const [key, subject] of Object.entries(ialMathsConfig)) {
-                const group = document.createElement('div');
-                group.className = 'filter-group-box';
-                group.innerHTML = `<div class="subject-group-label">${subject.label}</div>`;
+                const subjectDiv = document.createElement('div');
+                subjectDiv.style.marginBottom = '12px';
+
+                const subjectLabel = document.createElement('div');
+                subjectLabel.style.fontSize = '0.75rem';
+                subjectLabel.style.fontWeight = '600';
+                subjectLabel.style.opacity = '0.7';
+                subjectLabel.style.marginBottom = '6px';
+                subjectLabel.textContent = `${subject.label} (${subject.count})`;
+                subjectDiv.appendChild(subjectLabel);
+
                 const unitsDiv = document.createElement('div');
                 unitsDiv.className = 'filter-grid';
-                subject.units.forEach(unitId => {
-                    unitsDiv.innerHTML += `<label class="filter-item"><input type="checkbox" id="filter${unitId}" checked onchange="applyFilter()">${unitId}</label>`;
+                unitsDiv.style.gridTemplateColumns = 'repeat(3, 1fr)';
+
+                subject.units.forEach((unitId, index) => {
+                    const label = document.createElement('label');
+                    label.className = 'filter-item';
+                    label.innerHTML = `<input type="checkbox" id="filter${unitId}" checked onchange="applyFilter()">${unitId}`;
+                    unitsDiv.appendChild(label);
                 });
-                group.appendChild(unitsDiv);
-                grid.appendChild(group);
+
+                subjectDiv.appendChild(unitsDiv);
+                grid.appendChild(subjectDiv);
             }
         } else if (state.mode === 'IAL') {
-            const group = document.createElement('div');
-            group.className = 'filter-group-box filter-grid';
             for (let i = 1; i <= 6; i++) {
-                group.innerHTML += `<label class="filter-item"><input type="checkbox" id="filterUnit${i}" checked onchange="applyFilter()">U${i}</label>`;
+                const label = document.createElement('label');  // Create element instead of using innerHTML +=
+                label.className = 'filter-item';
+                label.innerHTML = `<input type="checkbox" id="filterUnit${i}" checked onchange="applyFilter()">U${i}`;
+                grid.appendChild(label);
             }
-            grid.appendChild(group);
         } else {
-            const group = document.createElement('div');
-            group.className = 'filter-group-box filter-grid';
             ['1', '2', '1R', '2R'].forEach(p => {
-                group.innerHTML += `<label class="filter-item"><input type="checkbox" id="filterPaper${p}" checked onchange="applyFilter()">P${p}</label>`;
+                const label = document.createElement('label');  // Create element instead of using innerHTML +=
+                label.className = 'filter-item';
+                label.innerHTML = `<input type="checkbox" id="filterPaper${p}" checked onchange="applyFilter()">P${p}`;
+                grid.appendChild(label);
             });
-            grid.appendChild(group);
         }
     }
 
     function performSearch() {
         const rawTerm = document.getElementById('searchInput').value.trim();
         if (!rawTerm) return;
+
         const quoteRegex = /"([^"]+)"/g;
         let keywords = [];
         let match;
-        while ((match = quoteRegex.exec(rawTerm)) !== null) keywords.push(match[1].toLowerCase().trim());
-        if (keywords.length === 0) keywords = [rawTerm.toLowerCase()];
+        while ((match = quoteRegex.exec(rawTerm)) !== null) {
+            keywords.push(match[1].toLowerCase().trim());
+        }
+
+        if (keywords.length === 0) {
+            keywords = [rawTerm.toLowerCase()];
+        }
 
         state.allRawResults = [];
+
+        // Search through subIndex.json
         for (const [recordName, pageData] of Object.entries(state.subIndex)) {
             for (const [pageKey, val] of Object.entries(pageData)) {
                 if (pageKey !== "__download_link__" && typeof val === 'string') {
-                    if (keywords.some(k => val.toLowerCase().includes(k))) {
-                        state.allRawResults.push({ recordName, pageKey, val });
+                    const valLower = val.toLowerCase();
+                    const isMatch = keywords.some(k => valLower.includes(k));
+                    if (isMatch) {
+                        state.allRawResults.push({
+                            recordName,
+                            pageKey,
+                            val
+                        });
                     }
                 }
             }
@@ -551,7 +606,11 @@
     }
 
     function applyFilter() {
-        if (state.noFilterActive) { displayResults(state.allRawResults); return; }
+        if (state.noFilterActive) {
+            displayResults(state.allRawResults);
+            return;
+        }
+
         const qp = document.getElementById('filterQP').checked;
         const ms = document.getElementById('filterMS').checked;
         const er = document.getElementById('filterER').checked;
@@ -559,13 +618,18 @@
         const filtered = state.allRawResults.filter(res => {
             const name = res.recordName.toUpperCase();
             let typeMatch = (qp && name.includes('QUESTIONPAPER')) || (ms && name.includes('MARKSCHEME')) || (er && name.includes('EXAMINERREPORT'));
+
             let subMatch = false;
 
             if (state.mode === 'IAL-MATHS') {
+                // Check against all unit IDs in the config
                 for (const subject of Object.values(ialMathsConfig)) {
                     for (const unitId of subject.units) {
                         const cb = document.getElementById(`filter${unitId}`);
-                        if (cb?.checked && name.includes(unitId)) { subMatch = true; break; }
+                        if (cb?.checked && name.includes(unitId)) {
+                            subMatch = true;
+                            break;
+                        }
                     }
                     if (subMatch) break;
                 }
@@ -575,12 +639,16 @@
                     if(cb?.checked && name.includes(`UNIT${i}`)) subMatch = true;
                 }
             } else {
+                // Refined Paper Matching Logic for IGCSE
                 ['1', '2', '1R', '2R'].forEach(p => {
                     const cb = document.getElementById(`filterPaper${p}`);
                     if (cb?.checked) {
-                        const pL = p.toLowerCase();
-                        if (pL.endsWith('r')) { if (name.includes(`PAPER${pL}`)) subMatch = true; }
-                        else { if (name.includes(`PAPER${pL}`) && !name.includes(`PAPER${pL}R`)) subMatch = true; }
+                        const pLower = p.toLowerCase();
+                        if (pLower.endsWith('r')) {
+                            if (name.includes(`PAPER${pLower}`)) subMatch = true;
+                        } else {
+                            if (name.includes(`PAPER${pLower}`) && !name.includes(`PAPER${pLower}R`)) subMatch = true;
+                        }
                     }
                 });
             }
@@ -592,38 +660,55 @@
     function displayResults(results) {
         const resultsList = document.getElementById('resultsList');
         resultsList.innerHTML = '';
+
         if (results.length === 0) {
-            resultsList.innerHTML = `<div style="opacity:0.3; padding:20px; font-size:12px; text-align:center;">No items matching filters</div>`;
+            const msg = state.noFilterActive ? "No results found" : "No items selected";
+            resultsList.innerHTML = `<div style="opacity:0.3; padding:20px; font-size:12px; text-align:center;">${msg}</div>`;
             return;
         }
+
         results.forEach((result) => {
             const pageNumber = result.pageKey.replace('page_', '');
+
             const item = document.createElement('div');
             item.className = 'result-item';
-            item.innerHTML = `<div class="result-text">${result.recordName}<br><span style="color:var(--accent-blue); font-size:11px;">Page ${pageNumber}</span></div>`;
+            item.innerHTML = `
+                <div class="result-text">${result.recordName} - Page ${pageNumber}</div>
+            `;
             item.onclick = () => {
                 loadResultInPdf(result);
                 const dlLink = document.getElementById('downloadLink');
                 const recordData = state.subIndex[result.recordName];
-                if (recordData?.__download_link__) {
+                if (recordData && recordData.__download_link__) {
                     dlLink.href = recordData.__download_link__;
                     dlLink.style.display = 'block';
-                } else { dlLink.style.display = 'none'; }
+                } else {
+                    dlLink.style.display = 'none';
+                }
             };
             resultsList.appendChild(item);
         });
     }
 
     function loadResultInPdf(result) {
-        const pdfFileName = result.recordName + '.pdf';
-        if (!state.pdfUrls[pdfFileName]) { alert(`PDF not found: ${pdfFileName}`); return; }
+        const recordName = result.recordName;
+        const pdfFileName = recordName + '.pdf';
+
+        if (!state.pdfUrls[pdfFileName]) {
+            alert(`PDF file not found for ${recordName}`);
+            return;
+        }
+
         const pageNumber = result.pageKey.replace('page_', '');
-        document.getElementById('pdfTitle').textContent = result.recordName;
-        document.getElementById('pageInfo').textContent = `VIEWING PAGE ${pageNumber}`;
+
+        document.getElementById('pdfTitle').textContent = recordName;
+        document.getElementById('pageInfo').textContent = `Page ${pageNumber}`;
         document.getElementById('pdfViewer').src = state.pdfUrls[pdfFileName] + '#page=' + pageNumber;
     }
 
-    document.getElementById('searchInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
+    document.getElementById('searchInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') performSearch();
+    });
 </script>
 </body>
 </html>
